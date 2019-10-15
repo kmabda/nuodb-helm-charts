@@ -15,5 +15,16 @@ git push --set-upstream origin gh-pages
 
 Then select `gh-pages branch` under Github..Settings, Github Pages. Choose the Slate theme.
 
+Then under the project, edit the project title, setting the Website as `https://nuodb.github.io/nuodb-helm-charts/`.
+
 ## Publishing an index
 
+On the master branch:
+
+```bash
+./scripts/index
+git checkout gh-pages
+git add index.html
+git commit -m "update index"
+git push
+```
