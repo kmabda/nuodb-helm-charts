@@ -8,7 +8,7 @@
 # optionally set environment variable for
 # 'google', 'azure', or 'amazon'.
 : ${PLATFORM:="google"}
-: ${TILLER_NAMESPACE:="nuodb"}
+: ${TARGET_NAMESPACE:="nuodb"}
 : ${DOMAIN_NAME:="cashews"}
 
 ME=`basename $0`
@@ -24,8 +24,8 @@ popd >/dev/null
 RELEASES=( demo-ycsb restored-database backup database monitoring-influx monitoring-insights admin transparent-hugepage )
 for RELEASE in "${RELEASES[@]}"
 do
-    helm delete --purge ${RELEASE}
-    sleep 1
+  helm delete  ${RELEASE}
+  sleep 1
 done
 
 kubectl delete jobs --all

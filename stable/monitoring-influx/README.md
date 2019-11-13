@@ -5,7 +5,7 @@ This chart deploys NuoDB Influx on a Kubernetes cluster using the Helm package m
 ## TL;DR;
 
 ```bash
-helm install nuodb/monitoring-influx -n influx
+helm install nuodb/monitoring-influx influx
 ```
 
 ## Prerequisites
@@ -239,7 +239,7 @@ kubectl create -f stable/monitoring-influx/${cloud_provider}-storage.yaml
 Verify the Helm chart:
 
 ```bash
-helm install nuodb/monitoring-influx -n monitoring-influx \
+helm install monitoring-influx nuodb/monitoring-influx \
     --set influx.persistence.enabled=true \
     --set influx.persistence.storageClass=influx-data \
     --debug --dry-run
@@ -248,7 +248,7 @@ helm install nuodb/monitoring-influx -n monitoring-influx \
 Deploy the InfluxDB-based monitoring solution:
 
 ```bash
-helm install nuodb/monitoring-influx -n monitoring-influx \
+helm install monitoring-influx nuodb/monitoring-influx \
     --set influx.persistence.enabled=true \
     --set influx.persistence.storageClass=influx-data \
     --debug --dry-run
@@ -278,7 +278,7 @@ The following instructions detail how to connect to the Grafana dashboard.
 2. Port-forward to the Pod:
 
     ```bash
-    $ kubectl -n nuodb port-forward `kubectl get pods | grep nuodb-dashboard-display | awk '{print $1}'` 3000
+    $ kubectl nuodb port-forward `kubectl get pods | grep nuodb-dashboard-display | awk '{print $1}'` 3000
     Forwarding from 127.0.0.1:3000 -> 3000
     Forwarding from [::1]:3000 -> 3000
     ```
@@ -292,7 +292,7 @@ The following instructions detail how to connect to the Grafana dashboard.
 To uninstall/delete the deployment:
 
 ```bash
-helm del --purge influx
+helm del influx
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.

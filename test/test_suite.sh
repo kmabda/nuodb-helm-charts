@@ -3,7 +3,7 @@
 # optionally set environment variable for
 # 'google', 'azure', or 'amazon'.
 : ${PLATFORM:="google"}
-: ${TILLER_NAMESPACE:="nuodb"}
+: ${TARGET_NAMESPACE:="nuodb"}
 : ${DOMAIN_NAME:="cashews"}
 
 ME=`basename $0`

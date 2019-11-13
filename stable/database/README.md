@@ -292,7 +292,7 @@ kubectl create -f stable/database/${cloud_provider}-storage.yaml
 Verify the Helm chart:
 
 ```bash
-helm install nuodb/database -n database \
+helm install database nuodb/database \
     --set sm.persistence.enabled=true \
     --set sm.persistence.storageClass=nuodb-archive \
     --debug --dry-run
@@ -301,7 +301,7 @@ helm install nuodb/database -n database \
 Deploy a database without backups:
 
 ```bash
-helm install nuodb/database -n database \
+helm install database nuodb/database \
     --set sm.persistence.enabled=true \
     --set sm.persistence.storageClass=nuodb-archive
 ```
@@ -386,7 +386,7 @@ kubectl delete pvc backup-volume-sm-database-nuodb-demo-hotcopy-0
 To uninstall/delete the deployment:
 
 ```bash
-helm del --purge database
+helm del database
 kubectl delete -f stable/database/${cloud_provider}-storage.yaml
 ```
 

@@ -162,7 +162,7 @@ See the following online resource for an interactive tool to create cron schedul
 Verify the Helm chart:
 
 ```bash
-helm install nuodb/backup -n backup \
+helm install backup nuodb/backup \
     --debug --dry-run
 ```
 
@@ -225,7 +225,7 @@ The number of `.inc` files depends on how many times you trigger the incremental
 To uninstall/delete the deployment:
 
 ```bash
-helm del --purge backup
+helm del backup
 kubectl delete jobs --all
 ```
 

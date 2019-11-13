@@ -133,16 +133,14 @@ thp:
 Verify the Helm chart:
 
 ```bash
-helm install nuodb/transparent-hugepage \
-    --name transparent-hugepage \
+helm install transparent-hugepage nuodb/transparent-hugepage \
     --debug --dry-run
 ```
 
 Deploy the administration tier using volumes of the specified storage class:
 
 ```bash
-helm install nuodb/transparent-hugepage \
-    --name transparent-hugepage
+helm install transparent-hugepage nuodb/transparent-hugepage
 ```
 
 Wait until the deployment completes:
@@ -172,7 +170,7 @@ The file MUST be run as root/sudo.
 To uninstall/delete the deployment:
 
 ```bash
-helm del --purge transparent-hugepage
+helm del transparent-hugepage
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.

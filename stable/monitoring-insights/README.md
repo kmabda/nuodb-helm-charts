@@ -155,13 +155,13 @@ The purpose of this section is to specify the Insights parameters.
 Verify the Helm chart:
 
 ```bash
-helm install nuodb/monitoring-insights -n monitoring-insights --debug --dry-run
+helm install monitoring-insights nuodb/monitoring-insights --debug --dry-run
 ```
 
 Deploy Insights:
 
 ```bash
-helm install nuodb/monitoring-insights -n monitoring-insights
+helm install monitoring-insights nuodb/monitoring-insights
 ```
 
 The command deploys NuoDB Insights on the Kubernetes cluster in the default configuration. The configuration section lists the parameters that can be configured during installation.
@@ -214,7 +214,7 @@ live performance metrics in its Grafana dashboards.
 To uninstall/delete the deployment:
 
 ```bash
-helm del --purge insights
+helm del insights
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.

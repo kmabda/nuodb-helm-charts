@@ -233,7 +233,7 @@ kubectl create -f stable/admin/${cloud_provider}-storage.yaml
 Verify the Helm chart:
 
 ```bash
-helm install nuodb/admin -n admin \
+helm install admin nuodb/admin \
     --set persistence.enabled=true \
     --set persistence.storageClass=nuodb-admin \
     --debug --dry-run
@@ -242,7 +242,7 @@ helm install nuodb/admin -n admin \
 Deploy the administration tier using volumes of the specified storage class:
 
 ```bash
-helm install nuodb/admin -n admin \
+helm install admin nuodb/admin \
     --set persistence.enabled=true \
     --set persistence.storageClass=nuodb-admin
 ```
@@ -299,7 +299,7 @@ kubectl scale sts admin-nuodb --replicas=3
 To uninstall/delete the deployment:
 
 ```bash
-helm del --purge admin
+helm del admin
 kubectl delete -f admin/${cloud_provider}-storage.yaml
 ```
 

@@ -27,25 +27,17 @@ values_overrides="--set cloud.provider=${PLATFORM}"
 
 # setup cluster scoped tiller (and storage classes)...
 
-kubectl -n kube-system create serviceaccount tiller-system
-kubectl create clusterrolebinding tiller-system --clusterrole cluster-admin --serviceaccount=kube-system:tiller-system
-
-helm init --service-account tiller-system --tiller-namespace kube-system
-sleep 30
-
-helm install ${REPO_NAME}/storage-class -n storage-class \
-    --tiller-namespace kube-system \
+helm install storage-class ${REPO_NAME}/storage-class \
     --namespace kube-system \
     ${values_option} \
     ${values_overrides}
 
-helm list --tiller-namespace kube-system
+helm list --namespace kube-system
 
 # =========================================================
 
-kubectl create namespace ${TILLER_NAMESPACE}
-kubectl create serviceaccount tiller --namespace ${TILLER_NAMESPACE}
-kubectl config set-context $(kubectl config current-context) --namespace=${TILLER_NAMESPACE}
+kubectl create namespace ${TARGET_NAMESPACE}
+kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_NAMESPACE}
 
 if [ "${PLATFORM}" == "google" ]; then
     GCP_ACCOUNT=`gcloud auth list --filter=status:ACTIVE --format="value(account)"`
@@ -65,14 +57,7 @@ if [ "${PLATFORM}" == "google" ]; then
     kubectl delete clusterrolebinding user-admin
 fi
 
-# setup namespace scoped roles and bindings...
-kubectl create -f ${SELF_ROOT}/test/files/role-tiller.yaml
-kubectl create -f ${SELF_ROOT}/test/files/rolebinding-tiller.yaml
-
-# setup namespace scoped tiller...
-helm init --service-account tiller --tiller-namespace ${TILLER_NAMESPACE}
 sleep 30
-helm list
 
 echo "note bearer token to log into dashboard:"
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')

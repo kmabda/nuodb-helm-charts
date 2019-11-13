@@ -284,7 +284,7 @@ Or, if using command line parameters:
 ### Delete the Database and Related Workloads
 
 ```bash
-helm del --purge demo-ycsb backup database
+helm del demo-ycsb backup database
 ```
 
 ### Delete the Archives
@@ -309,7 +309,7 @@ $ nuocmd show archives
 If we have not set the values in `restore/values.yaml` then we can override it while installing the restore chart:
 
 ```bash
-helm install nuodb/restore -n restore \
+helm install restore nuodb/restore \
   ${values_option} \
   --set admin.domain=${DOMAIN_NAME} \
   --set restore.backupPvc=backup-volume-sm-database-cashews-demo-backup-0 \
@@ -339,7 +339,7 @@ $ kubectl exec -it admin-cashews-0 -- nuocmd show archives
 First drop the restore deployment:
 
 ```bash
-helm del --purge restore
+helm del restore
 ```
 
 Then validate the admin lists the database as being in a TOMBSTONE state:
@@ -423,7 +423,7 @@ kubectl apply -f archive-pv.yaml
 Start a restored database:
 
 ```bash
-helm install nuodb/database -n restored-database \
+helm install restored-database nuodb/database \
   ${values_option} \
   --set admin.domain=${DOMAIN_NAME} \
   --set database.persistence.storageClass=nuodb-archive-from-snapshot \
@@ -454,7 +454,7 @@ Wait until the deployment completes:
 To uninstall/delete the deployment:
 
 ```bash
-helm del --purge restore
+helm del restore
 kubectl delete jobs --all
 ```
 

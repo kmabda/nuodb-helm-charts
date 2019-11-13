@@ -8,7 +8,7 @@ set -o pipefail
 # optionally set environment variable for
 # 'google', 'azure', or 'amazon'.
 : ${PLATFORM:="google"}
-: ${TILLER_NAMESPACE:="nuodb"}
+: ${TARGET_NAMESPACE:="nuodb"}
 : ${DOMAIN_NAME:="cashews"}
 : ${VALUE_CLASS:="tiny"}
 
@@ -91,7 +91,7 @@ check-job () {
   check $query $ready "Completed"
 }
 
-helm install ${REPO_NAME}/transparent-hugepage --name transparent-hugepage \
+helm install transparent-hugepage ${REPO_NAME}/transparent-hugepage \
   ${values_option} \
   ${values_option_overrides} \
   ${values_overrides}
@@ -100,7 +100,7 @@ sleep 30
 
 check-pod "transparent-hugepage" "1/1"
 
-helm install ${REPO_NAME}/admin --name admin \
+helm install admin ${REPO_NAME}/admin \
   ${values_option} \
   ${values_option_overrides} \
   ${values_overrides} \
@@ -125,7 +125,7 @@ check-pod "admin-${DOMAIN_NAME}-2" "1/1"
 CHARTS=( monitoring-influx monitoring-insights )
 for CHART in "${CHARTS[@]}"
 do
-  helm install ${REPO_NAME}/$CHART -n $CHART \
+  helm install $CHART ${REPO_NAME}/$CHART \
     ${values_option} \
     ${values_option_overrides} \
     ${values_overrides} \
@@ -137,7 +137,7 @@ sleep 60
 check-pod "nuodb-dashboard-display" "1/1"
 check-pod "nuodb-insights" "2/2"
 
-helm install ${REPO_NAME}/database --name database \
+helm install database ${REPO_NAME}/database \
   ${values_option} \
   ${values_option_overrides} \
   ${values_overrides} \
@@ -152,7 +152,7 @@ check-pod "te-database-cashews-demo" "1/1"
 CHARTS=( backup demo-ycsb )
 for CHART in "${CHARTS[@]}"
 do
-  helm install ${REPO_NAME}/$CHART -n $CHART \
+  helm install $CHART ${REPO_NAME}/$CHART \
     ${values_option} \
     ${values_option_overrides} \
     ${values_overrides} \
