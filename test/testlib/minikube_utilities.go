@@ -421,6 +421,16 @@ func shouldPrintToStdout() bool {
 	return exists
 }
 
+func GetPodEvents(t *testing.T, namespace string, podName string) {
+	options := k8s.NewKubectlOptions("", "")
+	options.Namespace = namespace
+
+	// this will print the events to the log
+	k8s.RunKubectlAndGetOutputE(t, options, "get", "event",
+		"--field-selector", "involvedObject.name="+podName)
+
+}
+
 func GetAppLog(t *testing.T, namespace string, podName string) {
 	dirPath := filepath.Join(RESULT_DIR, namespace)
 	filePath := filepath.Join(dirPath, podName)

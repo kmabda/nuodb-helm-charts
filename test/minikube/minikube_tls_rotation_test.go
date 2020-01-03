@@ -50,8 +50,6 @@ func startDomainWithTLSCertificates(t *testing.T, options *helm.Options, namespa
 }
 
 func TestKubernetesTLSRotation(t *testing.T) {
-	t.Skip("Flaky! DB-29423")
-
 	testlib.AwaitTillerUp(t)
 
 	randomSuffix := strings.ToLower(random.UniqueId())
