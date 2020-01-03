@@ -104,7 +104,7 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 15
           exec:
-            command: [ "nuodocker", "check", "servers", "--check-connected", "--check-active", "--check-leader" ]
+            command: [ "nuodocker", "check", "servers", "--check-connected", "--check-active", "--check-leader", "--huhla" ]
           failureThreshold: 30
           successThreshold: 2
           timeoutSeconds: 1

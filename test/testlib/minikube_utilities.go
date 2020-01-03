@@ -425,7 +425,7 @@ func GetPodEvents(t *testing.T, namespace string, podName string) {
 	options := k8s.NewKubectlOptions("", "")
 	options.Namespace = namespace
 
-	// this will print the events to the log
+	// this will print the events to the log, ignore failures
 	k8s.RunKubectlAndGetOutputE(t, options, "get", "event",
 		"--field-selector", "involvedObject.name="+podName)
 

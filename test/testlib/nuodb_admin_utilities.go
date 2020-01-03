@@ -58,10 +58,12 @@ func StartAdmin(t *testing.T, options *helm.Options, replicaCount int, namespace
 	for i := 0; i < replicaCount; i++ {
 		adminName := adminNames[i] // array will be out of scope for defer
 
+		AddTeardown("admin", func() { GetPodEvents(t, namespaceName, adminName) })
+
 		// first await could be pulling the image from the repo
 		AwaitAdminPodUp(t, namespaceName, adminName, 300*time.Second)
+
 		AddTeardown("admin", func() { GetAppLog(t, namespaceName, adminName) })
-		AddTeardown("admin", func() { GetPodEvents(t, namespaceName, adminName) })
 	}
 
 	for i := 0; i < replicaCount; i++ {
