@@ -81,13 +81,13 @@ func StartDatabase(t *testing.T, namespaceName string, adminPod string, options 
 	AwaitNrReplicasScheduled(t, namespaceName, smPodName, opt.NrSmPods)
 
 	tePodName := GetPodName(t, namespaceName, tePodNameTemplate)
-	AddTeardown(TEARDOWN_DATABASE, func() { GetAppLog(t, namespaceName, tePodName) })
+	AddTeardown(TEARDOWN_DATABASE, func() { GetAppLog(t, namespaceName, tePodName, "") })
 	AwaitPodStatus(t, namespaceName, tePodName, corev1.PodReady, corev1.ConditionTrue, 180*time.Second)
 
 	smPodName0 := GetPodName(t, namespaceName, smPodName)
-	AddTeardown(TEARDOWN_DATABASE, func() { GetAppLog(t, namespaceName, smPodName0) })
+	AddTeardown(TEARDOWN_DATABASE, func() { GetAppLog(t, namespaceName, smPodName0, "") })
 	AwaitPodStatus(t, namespaceName, smPodName0, corev1.PodReady, corev1.ConditionTrue, 240*time.Second)
-	
+
 	AwaitDatabaseUp(t, namespaceName, adminPod, opt.DbName, opt.NrSmPods+opt.NrTePods)
 
 	return

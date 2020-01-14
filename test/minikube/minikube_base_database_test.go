@@ -397,7 +397,7 @@ func TestKubernetesRestoreDatabase(t *testing.T) {
 			},
 		}
 
-		testlib.StartDatabase(t, namespaceName, admin0, &databaseOptions)
+		databaseChartName := testlib.StartDatabase(t, namespaceName, admin0, &databaseOptions)
 
 		opts := k8s.NewKubectlOptions("", "")
 		opts.Namespace = namespaceName
@@ -422,6 +422,16 @@ func TestKubernetesRestoreDatabase(t *testing.T) {
 		tables, err := testlib.RunSQL(t, namespaceName, admin0, "demo", "show schema User")
 		assert.NilError(t, err, "error running SQL: show schema User")
 		assert.Check(t, strings.Contains(tables, "HOCKEY"), "tables returned: ", tables)
+
+		opt := testlib.GetExtractedOptions(&databaseOptions)
+		tePodNameTemplate := fmt.Sprintf("te-%s-nuodb-%s-%s", databaseChartName, opt.ClusterName, opt.DbName)
+		smPodName := fmt.Sprintf("sm-%s-nuodb-%s-%s", databaseChartName, opt.ClusterName, opt.DbName)
+
+		tePodName := testlib.GetPodName(t, namespaceName, tePodNameTemplate)
+		testlib.GetAppLog(t, namespaceName, tePodName, "_pre-restart")
+
+		smPodName0 := testlib.GetPodName(t, namespaceName, smPodName)
+		testlib.GetAppLog(t, namespaceName, smPodName0, "_pre-restart")
 
 		// restore database
 		defer testlib.Teardown(testlib.TEARDOWN_RESTORE)
